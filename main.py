@@ -42,3 +42,8 @@ for measure in cleanMeasure[1:]:
       ins = clean_measure.insert().values(station=measure[0], date=measure[1], precip=measure[2], tobs=measure[3] )     
       conn = engine.connect()
       result = conn.execute(ins)
+
+
+get = engine.execute("SELECT * FROM clean_stations LIMIT 5").fetchall()
+for r in get:
+   print(r)
