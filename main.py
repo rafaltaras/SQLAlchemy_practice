@@ -8,7 +8,8 @@ meta = MetaData()
 
 clean_measure = Table(
    'clean_measure', meta,
-   Column('station', String, primary_key=True),
+   Column('id', Integer, primary_key=True),
+   Column('station', String),
    Column('date', String),
    Column('precip', String),
    Column('tobs', String)
@@ -16,7 +17,8 @@ clean_measure = Table(
 
 clean_stations = Table(
    'clean_stations', meta,
-   Column('station', String, primary_key=True),
+   Column('id', Integer, primary_key=True),
+   Column('station', String),
    Column('latitude', String),
    Column('longitude', String),
    Column('elevation', String),
@@ -30,8 +32,6 @@ meta.create_all(engine)
 
 cleanMeasure = data_manager1.get_from_csv()
 cleanStations = data_manager2.get_from_csv()
-# x = cleanStations[0]
-# print(type(x[0]))
 
 for stations in cleanStations[1:]:
       ins = clean_stations.insert().values(station=stations[0], latitude=stations[1], longitude=stations[2], elevation=stations[3], name=stations[4], country=stations[5], state=stations[6] )     
@@ -44,6 +44,6 @@ for measure in cleanMeasure[1:]:
       result = conn.execute(ins)
 
 
-get = engine.execute("SELECT * FROM clean_stations LIMIT 5").fetchall()
+get = engine.execute("SELECT * FROM clean_measure LIMIT 2").fetchall()
 for r in get:
    print(r)
